@@ -60,7 +60,7 @@ import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeYearPicker from './DatetimeYearPicker'
 import DatetimeMonthPicker from './DatetimeMonthPicker'
-import '../pk.font.css'
+import 'pk.font.css'
 
 const KEY_TAB = 9
 const KEY_ENTER = 13
