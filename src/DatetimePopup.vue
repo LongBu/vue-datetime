@@ -33,7 +33,7 @@
           </td>
           <td class="td2">
             <button class="caretUpDown icon-angle-up" @click="minUp()"></button>
-            <divclass="hrMinTxt">{{minute < 10 ? '0' + minute : minute}}</div>
+            <div class="hrMinTxt">{{minute < 10 ? '0' + minute : minute}}</div>
             <button class="caretUpDown icon-angle-down" @click="minDn()"></button>
           </td>
           <td>
