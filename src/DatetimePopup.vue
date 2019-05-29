@@ -1,10 +1,5 @@
 <template>
   <div class="vdatetime-popup">
-    <div class="vdatetime-popup__header">
-      <div class="vdatetime-popup__title" v-if="title">{{ title }}</div>
-      <div class="vdatetime-popup__year" @click="showYear" v-if="type !== 'time'">{{ year }}</div>
-      <div class="vdatetime-popup__date" @click="showMonth" v-if="type !== 'time'">{{ dateFormatted }}</div>
-    </div>
     <div class="vdatetime-popup__body">
       <datetime-year-picker
           v-if="step === 'year'"
@@ -20,7 +15,6 @@
           :year="year"
           :month="month"></datetime-month-picker>
       <datetime-calendar
-          v-if="step === 'date'"
           @change="onChangeDate"
           :year="year"
           :month="month"
@@ -29,16 +23,24 @@
           :max-date="maxDatetimeUTC"
           :week-start="weekStart"
       ></datetime-calendar>
-      <datetime-time-picker
-          v-if="step === 'time'"
-          @change="onChangeTime"
-          :hour="hour"
-          :minute="minute"
-          :use12-hour="use12Hour"
-          :hour-step="hourStep"
-          :minute-step="minuteStep"
-          :min-time="minTime"
-          :max-time="maxTime"></datetime-time-picker>
+      <table class="hrMinTable">
+      <tbody></tbody>
+        <tr>
+          <td class="td1">
+            <button class="caretUpDown icon-angle-up" @click="hourUp()"></button>
+            <div class="hrMinTxt">{{nonMilitaryHr}}</div>
+            <button class="caretUpDown icon-angle-down" @click="hourDn()"></button>
+          </td>
+          <td class="td2">
+            <button class="caretUpDown icon-angle-up" @click="minUp()"></button>
+            <divclass="hrMinTxt">{{minute < 10 ? '0' + minute : minute}}</div>
+            <button class="caretUpDown icon-angle-down" @click="minDn()"></button>
+          </td>
+          <td>
+            <button class="ampm" @click="toggleAmPm()">{{pm ? 'PM': 'AM'}}</button>
+          </td>
+        </tr>
+      </table>
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
@@ -55,9 +57,9 @@
 import { DateTime } from 'luxon'
 import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
-import DatetimeTimePicker from './DatetimeTimePicker'
 import DatetimeYearPicker from './DatetimeYearPicker'
 import DatetimeMonthPicker from './DatetimeMonthPicker'
+import '../pk.font.css'
 
 const KEY_TAB = 9
 const KEY_ENTER = 13
@@ -67,8 +69,7 @@ export default {
   components: {
     DatetimeCalendar,
     DatetimeTimePicker,
-    DatetimeYearPicker,
-    DatetimeMonthPicker
+    DatetimeYearPicker
   },
 
   props: {
@@ -147,6 +148,20 @@ export default {
   },
 
   computed: {
+    pm () {
+      return this.newDatetime.hour > 11;
+    },
+    nonMilitaryHr () {
+      if (this.newDatetime.hour === 0){
+        return 12;
+      }
+      else if (this.newDatetime.hour > 12){
+        return this.newDatetime.hour - 12;
+      }
+      else{
+        return this.newDatetime.hour;
+      }
+    },
     year () {
       return this.newDatetime.year
     },
@@ -193,13 +208,39 @@ export default {
   },
 
   methods: {
-    nextStep () {
-      this.step = this.flowManager.next(this.step)
-      this.timePartsTouched = []
-
-      if (this.step === 'end') {
-        this.$emit('confirm', this.newDatetime)
+    toggleAmPm() {
+      let hour = this.newDatetime.hour;
+      if (hour < 12){
+        hour += 12;
       }
+      else{
+        hour -= 12;
+      }
+      this.newDatetime = this.newDatetime.set({ hour })
+      this.timePartsTouched['hour'] = true
+    },
+    hourUp() {
+      const hour = this.newDatetime.hour + 1;
+      this.newDatetime = this.newDatetime.set({ hour })
+      this.timePartsTouched['hour'] = true
+    },
+    hourDn() {
+    const hour = this.newDatetime.hour - 1;
+      this.newDatetime = this.newDatetime.set({ hour })
+      this.timePartsTouched['hour'] = true
+    },
+    minUp() {
+    const minute = this.newDatetime.minute + 1;
+    this.newDatetime = this.newDatetime.set({ minute })
+    this.timePartsTouched['minute'] = true
+    },
+    minDn() {
+      const minute = this.newDatetime.minute - 1;
+    this.newDatetime = this.newDatetime.set({ minute })
+    this.timePartsTouched['minute'] = true
+    },
+    nextStep () {
+      this.$emit('confirm', this.newDatetime)
     },
     showYear () {
       this.step = 'year'
@@ -236,30 +277,6 @@ export default {
         this.nextStep()
       }
     },
-    onChangeTime ({ hour, minute, suffixTouched }) {
-      if (suffixTouched) {
-        this.timePartsTouched['suffix'] = true
-      }
-
-      if (Number.isInteger(hour)) {
-        this.newDatetime = this.newDatetime.set({ hour })
-        this.timePartsTouched['hour'] = true
-      }
-
-      if (Number.isInteger(minute)) {
-        this.newDatetime = this.newDatetime.set({ minute })
-        this.timePartsTouched['minute'] = true
-      }
-
-      const goNext = this.auto && this.timePartsTouched['hour'] && this.timePartsTouched['minute'] && (
-        this.timePartsTouched['suffix'] ||
-        !this.use12Hour
-      )
-
-      if (goNext) {
-        this.nextStep()
-      }
-    },
     onKeyDown (event) {
       switch (event.keyCode) {
         case KEY_ESC:
@@ -277,6 +294,32 @@ export default {
 </script>
 
 <style>
+.hrMinTable{
+  margin:0 auto 15px;
+}
+.td1{
+  padding-right: 50px;
+}
+.td2{
+  padding-right: 40px;
+}
+hrMinTxt{
+  text-align: center;
+  color:#74447A;
+}
+.ampm{
+  color: white;
+  background: #74447A;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  padding: 10px 20px;
+  }
+.caretUpDown{
+  border:none;
+  background:none;
+  color:#74447A;
+}
 .vdatetime-popup {
   box-sizing: border-box;
   z-index: 1000;
@@ -284,7 +327,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 340px;
+  width: 342px;
   max-width: calc(100% - 30px);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
   color: #444;
@@ -339,12 +382,28 @@ export default {
   padding: 10px 20px;
   background: transparent;
   font-size: 16px;
-  color: #3f51b5;
   cursor: pointer;
   transition: color .3s;
 
+  border: 1px solid #74447A;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+.vdatetime-popup__actions__button--cancel{
+  color: #74447A;
+  background: white;
   &:hover {
-    color: #444;
+    color: white;
+    background: #74447A;
+  }
+}
+.vdatetime-popup__actions__button--confirm{
+  color: white;
+  background: #74447A;
+  &:hover {
+    color: #74447A;
+    background: white;
   }
 }
 </style>

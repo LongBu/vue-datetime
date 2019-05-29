@@ -2,19 +2,15 @@
   <div class="vdatetime-calendar">
     <div class="vdatetime-calendar__navigation">
       <div class="vdatetime-calendar__navigation--previous" @click="previousMonth">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
-          <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
-        </svg>
+      <span class="icon-play3"></span>
       </div>
       <div class="vdatetime-calendar__current--month">{{ monthName }} {{ newYear }}</div>
       <div class="vdatetime-calendar__navigation--next" @click="nextMonth">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
-          <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
-        </svg>
+      <span class="icon-play3"></span>
       </div>
     </div>
     <div class="vdatetime-calendar__month">
-      <div class="vdatetime-calendar__month__weekday" v-for="weekday in weekdays">{{ weekday }}</div>
+      <div class="vdatetime-calendar__month__weekday" v-for="weekday in weekdays">{{ weekday[0] }}</div>
       <div class="vdatetime-calendar__month__day" v-for="day in days" @click="selectDay(day)" :class="{'vdatetime-calendar__month__day--selected': day.selected, 'vdatetime-calendar__month__day--disabled': day.disabled}">
         <span><span>{{ day.number }}</span></span>
       </div>
@@ -23,6 +19,7 @@
 </template>
 
 <script>
+import '../pk.font.css'
 import { DateTime } from 'luxon'
 import { monthDayIsDisabled, monthDays, months, weekdays } from './util'
 
@@ -138,11 +135,12 @@ export default {
 
 .vdatetime-calendar__navigation--previous {
   left: 25px;
+  transform: scaleX(-1);
 }
 
 .vdatetime-calendar__navigation--next {
   right: 25px;
-  transform: scaleX(-1);
+  transform: scaleX(1);
 }
 
 .vdatetime-calendar__current--month {
@@ -162,7 +160,8 @@ export default {
   line-height: 36px;
   text-align: center;
   font-size: 15px;
-  font-weight: 300;
+  color: darkgrey;
+  font-weight: bold;
   cursor: pointer;
 
   & > span {
@@ -191,6 +190,11 @@ export default {
 
 .vdatetime-calendar__month__weekday {
   font-weight: bold;
+  background: #E5E2DC;
+}
+.vdatetime-calendar__month__weekday:first-child,
+.vdatetime-calendar__month__weekday:nth-child(7){
+  color:darkGrey;
 }
 
 .vdatetime-calendar__month__day:hover > span > span {
@@ -201,7 +205,7 @@ export default {
   & > span > span,
   &:hover > span > span {
     color: #fff;
-    background: #3f51b5;
+    background: #C15F4A;
   }
 }
 
