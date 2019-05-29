@@ -296,7 +296,7 @@ export default {
 
 <style>
 .hrMinTable{
-  margin:0 auto 15px;
+  margin:15px auto 20px
 }
 .td1{
   padding-right: 50px;

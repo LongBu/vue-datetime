@@ -2,11 +2,11 @@
   <div class="vdatetime-calendar">
     <div class="vdatetime-calendar__navigation">
       <div class="vdatetime-calendar__navigation--previous" @click="previousMonth">
-      <span class="icon-play3"></span>
+      <span class="icon-play3 nextPrev"></span>
       </div>
       <div class="vdatetime-calendar__current--month">{{ monthName }} {{ newYear }}</div>
       <div class="vdatetime-calendar__navigation--next" @click="nextMonth">
-      <span class="icon-play3"></span>
+      <span class="icon-play3 nextPrev"></span>
       </div>
     </div>
     <div class="vdatetime-calendar__month">
@@ -100,6 +100,9 @@ export default {
 </script>
 
 <style>
+.nextPrev{
+  color:#74447A;
+}
 .vdatetime-calendar__navigation,
 .vdatetime-calendar__navigation * {
   box-sizing: border-box;
