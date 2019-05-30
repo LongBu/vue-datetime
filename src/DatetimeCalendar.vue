@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import 'pk.font.css'
 import { DateTime } from 'luxon'
 import { monthDayIsDisabled, monthDays, months, weekdays } from './util'
 
@@ -98,6 +97,10 @@ export default {
   }
 }
 </script>
+
+<style>
+@import './pk.font.css';
+</style>
 
 <style>
 .nextPrev{
