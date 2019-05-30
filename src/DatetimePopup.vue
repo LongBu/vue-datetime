@@ -60,7 +60,6 @@ import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeYearPicker from './DatetimeYearPicker'
 import DatetimeMonthPicker from './DatetimeMonthPicker'
-import 'pk.font.css'
 
 const KEY_TAB = 9
 const KEY_ENTER = 13
@@ -69,7 +68,6 @@ const KEY_ESC = 27
 export default {
   components: {
     DatetimeCalendar,
-    DatetimeTimePicker,
     DatetimeYearPicker
   },
 
@@ -293,7 +291,9 @@ export default {
   }
 }
 </script>
-
+<style>
+@import './pk.font.css';
+</style>
 <style>
 .hrMinTable{
   margin:15px auto 20px
