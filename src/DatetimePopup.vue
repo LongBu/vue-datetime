@@ -304,7 +304,7 @@ export default {
 .td2{
   padding-right: 40px;
 }
-hrMinTxt{
+.hrMinTxt{
   text-align: center;
   color:#74447A;
 }
