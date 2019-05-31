@@ -304,6 +304,9 @@ export default {
 .td2{
   padding-right: 40px;
 }
+td.td1, td.td2 {
+    text-align: center;
+}
 .hrMinTxt{
   text-align: center;
   color:#74447A;
