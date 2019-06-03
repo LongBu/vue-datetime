@@ -1,5 +1,5 @@
 import { DateTime, Info, Settings } from 'luxon'
-import FlowManager from './FlowManager'
+// import FlowManager from './FlowManager'
 
 export function capitalize (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -94,26 +94,26 @@ export function startOfDay (datetime) {
   return datetime.startOf('day')
 }
 
-export function createFlowManager (flow) {
-  return new FlowManager(flow, 'end')
-}
-
-export function createFlowManagerFromType (type) {
-  let flow = []
-
-  switch (type) {
-    case 'datetime':
-      flow = ['date', 'time']
-      break
-    case 'time':
-      flow = ['time']
-      break
-    default:
-      flow = ['date']
-  }
-
-  return new FlowManager(flow, 'end')
-}
+// export function createFlowManager (flow) {
+//   return new FlowManager(flow, 'end')
+// }
+//
+// export function createFlowManagerFromType (type) {
+//   let flow = []
+//
+//   switch (type) {
+//     case 'datetime':
+//       flow = ['date', 'time']
+//       break
+//     case 'time':
+//       flow = ['time']
+//       break
+//     default:
+//       flow = ['date']
+//   }
+//
+//   return new FlowManager(flow, 'end')
+// }
 
 export function weekStart () {
   let weekstart
