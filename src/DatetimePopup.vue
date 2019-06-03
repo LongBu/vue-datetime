@@ -1,7 +1,7 @@
 <template>
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__body">
-      <datetime-year-picker
+      <!-- <datetime-year-picker
           v-if="step === 'year'"
           @change="onChangeYear"
           :min-date="minDatetimeUTC"
@@ -13,7 +13,7 @@
           :min-date="minDatetimeUTC"
           :max-date="maxDatetimeUTC"
           :year="year"
-          :month="month"></datetime-month-picker>
+          :month="month"></datetime-month-picker> -->
       <datetime-calendar
           @change="onChangeDate"
           :year="year"
@@ -56,7 +56,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { createFlowManager, createFlowManagerFromType } from './util'
+// import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeYearPicker from './DatetimeYearPicker'
 import DatetimeMonthPicker from './DatetimeMonthPicker'
@@ -126,14 +126,14 @@ export default {
   },
 
   data () {
-    const flowManager = this.flow
-      ? createFlowManager(this.flow)
-      : createFlowManagerFromType(this.type)
+    // const flowManager = this.flow
+    //   ? createFlowManager(this.flow)
+    //   : createFlowManagerFromType(this.type)
 
     return {
       newDatetime: this.datetime,
-      flowManager,
-      step: flowManager.first(),
+      // flowManager,
+      // step: flowManager.first(),
       timePartsTouched: []
     }
   },
@@ -238,19 +238,20 @@ export default {
     this.newDatetime = this.newDatetime.set({ minute })
     this.timePartsTouched['minute'] = true
     },
-    nextStep () {
-      this.$emit('confirm', this.newDatetime)
-    },
+    // nextStep () {
+    //   this.$emit('confirm', this.newDatetime)
+    // },
     showYear () {
-      this.step = 'year'
+      // this.step = 'year'
       this.flowManager.diversion('date')
     },
     showMonth () {
-      this.step = 'month'
+      // this.step = 'month'
       this.flowManager.diversion('date')
     },
     confirm () {
-      this.nextStep()
+      // this.nextStep()
+      this.$emit('confirm', this.newDatetime)
     },
     cancel () {
       this.$emit('cancel')
@@ -303,9 +304,6 @@ export default {
 }
 .td2{
   padding-right: 40px;
-}
-td.td1, td.td2 {
-    text-align: center;
 }
 .hrMinTxt{
   text-align: center;
