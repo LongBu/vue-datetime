@@ -1,19 +1,6 @@
 <template>
   <div class="vdatetime-popup">
     <div class="vdatetime-popup__body">
-      <!-- <datetime-year-picker
-          v-if="step === 'year'"
-          @change="onChangeYear"
-          :min-date="minDatetimeUTC"
-          :max-date="maxDatetimeUTC"
-          :year="year"></datetime-year-picker>
-      <datetime-month-picker
-          v-if="step === 'month'"
-          @change="onChangeMonth"
-          :min-date="minDatetimeUTC"
-          :max-date="maxDatetimeUTC"
-          :year="year"
-          :month="month"></datetime-month-picker> -->
       <datetime-calendar
           @change="onChangeDate"
           :year="year"
@@ -23,7 +10,24 @@
           :max-date="maxDatetimeUTC"
           :week-start="weekStart"
       ></datetime-calendar>
-      <table class="hrMinTable">
+      <table class="hrMinTable" v-if="!use12Hour">
+      <tbody>
+        <tr>
+        <td class="td1">
+          <button class="caretUpDown icon-angle-up" @click="hourUp()"></button>
+          <div class="hrMinTxt">{{newDatetime.hour}}</div>
+          <button class="caretUpDown icon-angle-down" @click="hourDn()"></button>
+        </td>
+        <td class="td2">
+          <button class="caretUpDown icon-angle-up" @click="minUp()"></button>
+          <div class="hrMinTxt">{{minute < 10 ? '0' + minute : minute}}</div>
+          <button class="caretUpDown icon-angle-down" @click="minDn()"></button>
+        </td>
+
+        </tr>
+        </tbody>
+      </table>
+      <table class="hrMinTable" v-else-if="use12Hour">
       <tbody>
         <tr>
         <td class="td1">
@@ -45,10 +49,10 @@
     </div>
     <div class="vdatetime-popup__actions">
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
-        <slot name="button-cancel__internal" v-bind:step="step">{{ phrases.cancel }}</slot>
+        <slot name="button-cancel__internal" >{{ phrases.cancel }}</slot>
       </div>
       <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">
-        <slot name="button-confirm__internal" v-bind:step="step">{{ phrases.ok }}</slot>
+        <slot name="button-confirm__internal">{{ phrases.ok }}</slot>
       </div>
     </div>
   </div>
@@ -56,7 +60,6 @@
 
 <script>
 import { DateTime } from 'luxon'
-// import { createFlowManager, createFlowManagerFromType } from './util'
 import DatetimeCalendar from './DatetimeCalendar'
 import DatetimeYearPicker from './DatetimeYearPicker'
 import DatetimeMonthPicker from './DatetimeMonthPicker'
@@ -117,23 +120,15 @@ export default {
       type: Number,
       default: 1
     },
-    flow: {
-      type: Array
-    },
+
     title: {
       type: String
     }
   },
 
   data () {
-    // const flowManager = this.flow
-    //   ? createFlowManager(this.flow)
-    //   : createFlowManagerFromType(this.type)
-
     return {
       newDatetime: this.datetime,
-      // flowManager,
-      // step: flowManager.first(),
       timePartsTouched: []
     }
   },
@@ -243,11 +238,11 @@ export default {
     // },
     showYear () {
       // this.step = 'year'
-      this.flowManager.diversion('date')
+      // this.flowManager.diversion('date')
     },
     showMonth () {
       // this.step = 'month'
-      this.flowManager.diversion('date')
+      // this.flowManager.diversion('date')
     },
     confirm () {
       // this.nextStep()
@@ -260,21 +255,21 @@ export default {
       this.newDatetime = this.newDatetime.set({ year })
 
       if (this.auto) {
-        this.nextStep()
+        // this.nextStep()
       }
     },
     onChangeMonth (month) {
       this.newDatetime = this.newDatetime.set({ month })
 
       if (this.auto) {
-        this.nextStep()
+        // this.nextStep()
       }
     },
     onChangeDate (year, month, day) {
       this.newDatetime = this.newDatetime.set({ year, month, day })
 
       if (this.auto) {
-        this.nextStep()
+        // this.nextStep()
       }
     },
     onKeyDown (event) {
@@ -285,7 +280,7 @@ export default {
           break
 
         case KEY_ENTER:
-          this.nextStep()
+          // this.nextStep()
           break
       }
     }
@@ -298,6 +293,10 @@ export default {
 <style>
 .hrMinTable{
   margin:15px auto 20px
+}
+
+.td1, .td2{
+text-align:center;
 }
 .td1{
   padding-right: 50px;

@@ -82,10 +82,6 @@ export default {
       type: String,
       default: 'local'
     },
-    format: {
-      type: [Object, String],
-      default: null
-    },
     type: {
       type: String,
       default: 'date'
@@ -156,7 +152,10 @@ export default {
 
   computed: {
     inputValue () {
-      let format = this.format
+      let format = "MM/dd/yy HH:mm"
+      if (this.use12Hour){
+        format = "MM/dd/yy t"
+      }
 
       if (!format) {
         switch (this.type) {
