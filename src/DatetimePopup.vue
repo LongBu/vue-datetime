@@ -295,6 +295,10 @@ export default {
   margin:15px auto 20px
 }
 
+table.hrMinTable tbody tr td{
+  border: none;
+}
+
 .td1, .td2{
 text-align:center;
 }
