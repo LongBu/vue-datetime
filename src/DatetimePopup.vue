@@ -41,17 +41,17 @@
           <button class="caretUpDown icon-angle-down" @click="minDn()"></button>
         </td>
         <td>
-          <button class="ampm" @click="toggleAmPm()">{{pm ? 'PM': 'AM'}}</button>
+          <button class="ampm buttonHover" @click="toggleAmPm()">{{pm ? 'PM': 'AM'}}</button>
         </td>
         </tr>
         </tbody>
       </table>
     </div>
     <div class="vdatetime-popup__actions">
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel" @click="cancel">
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--cancel buttonHover" @click="cancel">
         <slot name="button-cancel__internal" >{{ phrases.cancel }}</slot>
       </div>
-      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm" @click="confirm">
+      <div class="vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm buttonHover" @click="confirm">
         <slot name="button-confirm__internal">{{ phrases.ok }}</slot>
       </div>
     </div>
@@ -394,16 +394,13 @@ text-align:center;
 .vdatetime-popup__actions__button--cancel{
   color: #74447A;
   background: white;
-  &:hover {
-    color: white;
-    background: #c15f4a;
-  }
 }
 .vdatetime-popup__actions__button--confirm{
   color: white;
   background: #74447A;
-  &:hover {
+}
+.buttonHover:hover{
+    color: white;
     background: #c15f4a;
-  }
 }
 </style>
