@@ -373,7 +373,7 @@ text-align:center;
 }
 
 .vdatetime-popup__actions {
-  padding: 0 20px 10px 30px;
+  padding: 30px 20px 10px 30px;
   text-align: right;
 }
 
